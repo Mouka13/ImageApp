@@ -1,5 +1,4 @@
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -10,15 +9,17 @@ import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import javax.swing.JToggleButton;
 import javax.swing.border.BevelBorder;
+import javax.swing.JScrollPane;
 
 public class ImageGUI {
-
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -85,6 +86,14 @@ public class ImageGUI {
 		
 		JToggleButton tglbtnNewToggleButton = new JToggleButton("Photo Type");
 		toolbar.add(tglbtnNewToggleButton);
+		
+		
+		//container for the PhotoComponent
+		JScrollPane scrollPane = new JScrollPane();
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		PhotoComponent ptcomp= new PhotoComponent();
+		scrollPane.setViewportView(ptcomp);
+
 	}
 
 }
