@@ -1,99 +1,70 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import javax.swing.JToggleButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.JScrollPane;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import javax.swing.*;
 
-public class ImageGUI {
-	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
+
+
+public class PhotoComponent extends JComponent {
+	public Image img;
+	public int flipped;
+	//public Size actualSize;
+	//public Size preferredSize;
+	public int p_size_x;
+	public int p_size_y;
+	public int a_size_x;
+	public int a_size_y;
+	public Image bckgPhoto;
+	
+	public PhotoComponent(){
+		super();
+		this.flipped=0;
+		a_size_x=360;
+		a_size_y=360;
+		p_size_x=360;
+		p_size_y=360;
+		this.setSize(360, 360);
+		this.setBackground(Color.darkGray);
+	//	this.setOpaque(true);
+		 this.repaint();
+		 
+}
+	
+	
+	public PhotoComponent(int a,int b){
+		super();
+		a_size_x=a;
+		a_size_y=b;
+		p_size_x=360;
+		p_size_y=360;
+		this.setSize(a, b);
+		this.flipped=0;
+		this.setBackground(Color.black);
+		this.repaint();
+}
 		
-		
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ImageGUI window = new ImageGUI();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public PhotoComponent(int pa,int pb,int a,int b,Image bg){
+			super();
+			a_size_x=a;
+			a_size_y=b;
+			p_size_x=pa;
+			p_size_y=pb;
+			this.setSize(a, b);
+			this.flipped=0;
+			this.bckgPhoto=bg;
+			this.setBackground(Color.black);
+			this.repaint();
 	}
-
-	/**
-	 * Create the application.
-	 */
-	public ImageGUI() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 500, 232);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenu mnFile = new JMenu("File");
-		menuBar.add(mnFile);
-		
-		JMenuItem mntmImport = new JMenuItem("Import");
-		mnFile.add(mntmImport);
-		
-		JMenuItem mntmDelete = new JMenuItem("Delete");
-		mnFile.add(mntmDelete);
-		
-		JMenuItem mntmQuit = new JMenuItem("Quit");
-		mnFile.add(mntmQuit);
-		
-		JMenu mnNewMenu = new JMenu("View");
-		menuBar.add(mnNewMenu);
-		
-		JMenuItem mntmPhotoViewer = new JMenuItem("Photo Viewer");
-		mnNewMenu.add(mntmPhotoViewer);
-		
-		JMenuItem mntmBrowser = new JMenuItem("Browser");
-		mnNewMenu.add(mntmBrowser);
-		
-		JMenuItem mntmSplitMode = new JMenuItem("Split Mode");
-		mnNewMenu.add(mntmSplitMode);
-		
-		JPanel statusBarContainer = new JPanel();
-		statusBarContainer.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		frame.getContentPane().add(statusBarContainer, BorderLayout.SOUTH);
-		
-		JLabel lblStatusBar = new JLabel("Status Bar");
-		statusBarContainer.add(lblStatusBar);
-		
-		JPanel toolbar = new JPanel();
-		frame.getContentPane().add(toolbar, BorderLayout.WEST);
-		
-		JToggleButton tglbtnNewToggleButton = new JToggleButton("Photo Type");
-		toolbar.add(tglbtnNewToggleButton);
-		
-		
-		//container for the PhotoComponent
-		JScrollPane scrollPane = new JScrollPane();
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-		PhotoComponent ptcomp= new PhotoComponent();
-		scrollPane.setViewportView(ptcomp);
-
-	}
-
+			
+	
+	protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(getBackground());
+        g2.fillRect(0, 0, getWidth(), getHeight());
+        g2.setColor(getForeground());
+    }
 }
