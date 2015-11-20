@@ -1,36 +1,35 @@
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import javax.swing.JToggleButton;
-import javax.swing.border.BevelBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import javax.swing.JToolBar;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
-import javax.swing.JFileChooser;
-import javax.swing.border.LineBorder;
 import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.event.MouseAdapter;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 //import PhotoComponent.flipListener;
 import javax.swing.JFileChooser;
-	public class ImageGUI {
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorListener;
+
+import net.miginfocom.swing.MigLayout;
+import javax.swing.ImageIcon;
+	
+
+public class ImageGUI {
 	private JFrame frame;
 	public File pfl;
 	PhotoComponent ptcomp;
@@ -117,23 +116,55 @@ import javax.swing.JFileChooser;
 		flipListener flp=new flipListener();
 		btnFlip.addActionListener(flp);
 		
+		JButton btnPen = new JButton("");
+		//doing an absolute path just for testing
+		btnPen.setIcon(new ImageIcon("C:\\Users\\mega-_000\\workspace\\ImageStuff\\src\\Black_Pencil_Icon.png"));
+		toolbar.add(btnPen, "flowx,cell 0 2");
 		
-		JButton btnNewButton = new JButton("Text");
-		toolbar.add(btnNewButton, "flowx,cell 0 2,alignx left,aligny top");
+		penListener drbtn=new penListener();
+		btnPen.addActionListener(drbtn);
 		
-		JButton btnPen = new JButton("Pen");
-		toolbar.add(btnPen, "cell 0 2");
 		
-		JButton btnEraser = new JButton("Eraser");
-		toolbar.add(btnEraser, "cell 0 3");
+		JButton btnNewButton = new JButton("");
+		//doing an absolute path just for testing
+		btnNewButton.setIcon(new ImageIcon("C:\\Users\\mega-_000\\workspace\\ImageStuff\\src\\text_letter_t.png"));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ptcomp.setMode('t');
+			}
+		});
+		toolbar.add(btnNewButton, "cell 0 3,alignx left,aligny top");
+		
+		JButton btnEraser = new JButton("");
+		//doing an absolute path just for testing
+		btnEraser.setIcon(new ImageIcon("C:\\Users\\mega-_000\\workspace\\ImageStuff\\src\\draw_eraser.png"));
+		
+		toolbar.add(btnEraser, "cell 0 2");
+		btnEraser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ptcomp.setMode('e');
+			}
+		});
 		
 		ptcomp= new PhotoComponent(360,360);
+		//strokelistener stlis=new strokelistener();
+		//strokelistener2 stlis2=new strokelistener2();
+		//ptcomp.addMouseListener(stlis);
+		//ptcomp.addMouseMotionListener(stlis2);
+		
+		//propertyChangeListener 
+		//ptcomp.addPropertyChangeListener(proplis);
 		//container for the PhotoComponent
 		JScrollPane scrollPane = new JScrollPane(ptcomp);
 		scrollPane.setViewportBorder(new LineBorder(Color.WHITE, 3, true));
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-		//scrollPane.setBounds(100,100,200,300);
+		scrollPane.setBounds(100,100,200,300);
+		//flipListener lis=new flipListener();
+		//ptcomp.addAncestorListener((AncestorListener) lis);
+		//drStrokeListener dr=new drStrokeListener();
+		//ptcomp.addAncestorListener((AncestorListener) dr);
+		
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		
@@ -143,16 +174,15 @@ import javax.swing.JFileChooser;
 	
 	
 	
-	
-	
+// handler for quit function in menu
 	class quithandler implements ActionListener{
 		public void actionPerformed(ActionEvent ev){
 			System.exit(0);
 		}
 	}
 	
-	
-	
+
+//handler for flip action in 	
 	class flipListener implements ActionListener {
 		public void actionPerformed(ActionEvent ev){
 			ptcomp.flipped=!ptcomp.flipped;
@@ -170,12 +200,26 @@ import javax.swing.JFileChooser;
 	        	fl = fc.getSelectedFile();
 	        	ptcomp.setImage(fl);
 	        	ptcomp.flipped=false;
+	        	ptcomp.mode='s';
 	        	ptcomp.backannotation=new BufferedImage(ptcomp.img.getWidth(),ptcomp.img.getHeight(),BufferedImage.TYPE_INT_RGB);
-	    		ptcomp.backannotation.setRGB(0, 0, 0);;
+	    		ptcomp.backannotation.setRGB(0, 0, 0);
+	    		
 	        }
 	            
 		}		
 	}
 	
+	class penListener implements ActionListener{
+		public void actionPerformed(ActionEvent ev){
+			ptcomp.mode='s';
+		}
+		
+	}
 	
+	
+	
+	
+	
+	
+
 }
